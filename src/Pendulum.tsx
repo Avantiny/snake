@@ -17,22 +17,29 @@ const Canvas = styled.canvas`
   border-radius: 5px;
 `
 
-const Pendulum = () => {
-  const canvasRef = useRef(null)
+type CanvasCtx = CanvasRenderingContext2D | null | undefined
+type Props = { draw: (ctx: any, frameCount: number) => void }
 
-  const draw = (ctx: any) => {
-    ctx.fillStyle = '#0ac00a'
-    ctx.fillRect(20, 50, 100, 100)
-    ctx.fillRect(200, 100, 100, 100)
-    ctx.fill()
-  }
+const Pendulum = (props: Props) => {
+  const canvasRef = useRef<HTMLCanvasElement>(null)
 
   useEffect(() => {
     const canvas = canvasRef.current
-    //@ts-ignore
-    const ctx = canvas.getContext('2d')
-    draw(ctx)
-  }, [draw])
+    const ctx: CanvasCtx = canvas?.getContext('2d')
+    let frameCount = 0
+    let animationFrameId: number
+
+    const render = () => {
+      frameCount++
+      props.draw(ctx, frameCount)
+      animationFrameId = window.requestAnimationFrame(render)
+    }
+    render()
+
+    return () => {
+      window.cancelAnimationFrame(animationFrameId)
+    }
+  }, [props.draw])
 
   let r1 = 100
   let r2 = 100
