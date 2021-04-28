@@ -7,13 +7,13 @@ const App = () => {
   let r2 = 100
   let m1 = 20
   let m2 = 20
-  let a1 = 0.01
-  let a2 = 0.01
+  let a1 = Math.PI / 2
+  let a2 = 1
   let x0 = 300
   let y0 = 250
   let a1_v = 0
   let a2_v = 0
-  let g = 1
+  let g = 9.81 / 36
 
   const draw = async (ctx: any, frameCount: number) => {
     let num1 = -g * (2 * m1 + m2) * Math.sin(a1)
@@ -42,10 +42,11 @@ const App = () => {
     ctx.beginPath()
     // console.log(frameCount)
     // console.log(a1_a)
-    a1 += a1_v
-    a2 += a2_v
     a1_v += a1_a
     a2_v += a2_a
+    a1 += a1_v
+    a2 += a2_v
+
     ctx.moveTo(x0, y0)
     ctx.lineTo(x1, y1)
     ctx.fillRect(xc1, yc1, m1, m1)
@@ -55,7 +56,9 @@ const App = () => {
     ctx.closePath()
     // ctx.beginPath()
     // ctx.moveTo(300, 450)
-    // ctx.fillRect(x1 + x2, y1 + y2, 10, 10)
+    // ctx.lineWidth = 2
+    // ctx.lineCap = 'round'
+    // ctx.lineTo(x2, y2)
     // ctx.stroke()
   }
   return <Pendulum draw={draw} />
