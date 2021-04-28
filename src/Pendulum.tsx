@@ -45,6 +45,10 @@ const Pendulum = (props: Props) => {
   let r2 = 100
   let m1 = 10
   let m2 = 10
+  let a1 = 0
+  let a2 = 0
+  let x1 = r1 * Math.sin(a1)
+  let y1 = r1 * Math.cos(a1)
 
   return (
     <Wrapper>
