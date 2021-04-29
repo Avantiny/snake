@@ -32,7 +32,7 @@ const Pendulum = (props: Props) => {
     }
   }, [props.draw])
 
-  return <Canvas ref={canvasRef} width='600' height='600' />
+  return <Canvas ref={canvasRef} width='600px' height='600px' />
 }
 
 export default Pendulum
