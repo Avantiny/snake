@@ -6,7 +6,7 @@ import styled from 'styled-components'
 const Wrapper = styled.div`
   background-color: #534d56;
   color: #f8f1ff;
-  height: 100vh;
+  /* height: 100vh; */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -20,19 +20,31 @@ const RowWrapper = styled.div`
   padding-right: 10px;
 `
 
-const ButtonPlus = styled.button`
-  height: 20px;
+const ColWrapper = styled.div`
   display: flex;
-  flex-direction: row;
-  font-size: 10px;
-  background-color: green;
+  align-items: center;
+  flex-direction: column;
+  padding-right: 10px;
 `
-const ButtonMinus = styled.button`
+const Button = styled.button`
   height: 20px;
   display: flex;
   flex-direction: row;
   font-size: 10px;
-  background-color: red;
+  border-radius: 4px;
+`
+const ButtonPlus = styled(Button)`
+  margin-left: 5px;
+  background-color: #63f863;
+`
+const ButtonMinus = styled(Button)`
+  margin-right: 5px;
+  border-radius: 4px;
+  background-color: #f14a4a;
+`
+const Input = styled.input`
+  margin-right: 5px;
+  border-radius: 4px;
 `
 
 const App = () => {
@@ -62,6 +74,10 @@ const App = () => {
   let yc1 = y1 - m1 / 2
   let xc2 = x2 - m2 / 2
   let yc2 = y2 - m2 / 2
+
+  const angleInput = (angle: string) => {
+    return parseFloat(angle) ? parseFloat(angle) : 0
+  }
 
   const draw = (ctx: any) => {
     num1 = -g * (2 * m1 + m2) * Math.sin(a1)
@@ -111,42 +127,113 @@ const App = () => {
   return (
     <Wrapper>
       <h1>Double pendulum</h1>
-      <RowWrapper>
+      <ColWrapper>
         <RowWrapper>
           <RowWrapper>
-            <ButtonMinus onClick={() => setr1(r1 - 10)}>-10</ButtonMinus>
-            <p>r1: {r1}m</p>
-            <ButtonPlus onClick={() => setr1(r1 + 10)}>+10</ButtonPlus>
+            <ButtonMinus
+              onClick={() => {
+                if (r1 > 10) setr1(r1 - 10)
+              }}
+            >
+              -10
+            </ButtonMinus>
+            <p>
+              r<sub>1</sub>: {r1}m
+            </p>
+            <ButtonPlus
+              onClick={() => {
+                if (r1 < 300) setr1(r1 + 10)
+              }}
+            >
+              +10
+            </ButtonPlus>
           </RowWrapper>
           <RowWrapper>
-            <ButtonMinus onClick={() => setr2(r2 - 10)}>-10</ButtonMinus>
-            <p>r2: {r2}m</p>
-            <ButtonPlus onClick={() => setr2(r2 + 10)}>+10</ButtonPlus>
+            <ButtonMinus
+              onClick={() => {
+                if (r2 > 10) setr2(r2 - 10)
+              }}
+            >
+              -10
+            </ButtonMinus>
+            <p>
+              r<sub>2</sub>: {r2}m
+            </p>
+            <ButtonPlus
+              onClick={() => {
+                if (r2 < 300) setr2(r2 + 10)
+              }}
+            >
+              +10
+            </ButtonPlus>
+          </RowWrapper>
+
+          <RowWrapper>
+            <ButtonMinus
+              onClick={() => {
+                if (m1 > 10) setm1(m1 - 10)
+              }}
+            >
+              -10
+            </ButtonMinus>
+            <p>
+              m<sub>1</sub>: {m1}kg
+            </p>
+            <ButtonPlus
+              onClick={() => {
+                if (m1 < 300) setm1(m1 + 10)
+              }}
+            >
+              +10
+            </ButtonPlus>
+          </RowWrapper>
+          <RowWrapper>
+            <ButtonMinus
+              onClick={() => {
+                if (m2 > 10) setm2(m2 - 10)
+              }}
+            >
+              -10
+            </ButtonMinus>
+            <p>
+              m<sub>2</sub>: {m2}kg
+            </p>
+            <ButtonPlus
+              onClick={() => {
+                if (m2 < 300) setm2(m2 + 10)
+              }}
+            >
+              +10
+            </ButtonPlus>
           </RowWrapper>
         </RowWrapper>
         <RowWrapper>
           <RowWrapper>
-            <ButtonMinus onClick={() => setm1(m1 - 10)}>-10</ButtonMinus>
-            <p>m1: {m1}kg</p>
-            <ButtonPlus onClick={() => setm1(m1 + 10)}>+10</ButtonPlus>
+            <Input
+              type='text'
+              // value={as1}
+              onChange={e => {
+                setas1(angleInput(e.target.value))
+              }}
+            />
+            <p>
+              &Theta;<sub>1</sub>: {as1.toFixed(3)}rad
+            </p>
           </RowWrapper>
           <RowWrapper>
-            <ButtonMinus onClick={() => setm2(m2 - 10)}>-10</ButtonMinus>
-            <p>m2: {m2}kg</p>
-            <ButtonPlus onClick={() => setm2(m2 + 10)}>+10</ButtonPlus>
-          </RowWrapper>
-          <RowWrapper>
-            <ButtonMinus onClick={() => setas1(as1 - 0.1)}>-0.1</ButtonMinus>
-            <p>as1: {as1.toFixed(1)}rad</p>
-            <ButtonPlus onClick={() => setas1(as1 + 0.1)}>+0.1</ButtonPlus>
-          </RowWrapper>
-          <RowWrapper>
-            <ButtonMinus onClick={() => setas2(as2 - 0.1)}>-0.1</ButtonMinus>
-            <p>as2: {as2.toFixed(1)}rad</p>
-            <ButtonPlus onClick={() => setas2(as2 + 0.1)}>+0.1</ButtonPlus>
+            <Input
+              type='text'
+              // value={as2}
+              onChange={e => {
+                setas2(angleInput(e.target.value))
+              }}
+            />
+            <p>
+              &Theta;<sub>2</sub>: {as2.toFixed(3)}rad
+            </p>
           </RowWrapper>
         </RowWrapper>
-      </RowWrapper>
+      </ColWrapper>
       <div>
         <Pendulum draw={draw} />
       </div>
