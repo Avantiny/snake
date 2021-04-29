@@ -13,30 +13,46 @@ const Wrapper = styled.div`
   flex-direction: column;
 `
 
+const RowWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  padding-right: 10px;
+`
+
+const ButtonPlus = styled.button`
+  height: 20px;
+  display: flex;
+  flex-direction: row;
+  font-size: 10px;
+  background-color: green;
+`
+const ButtonMinus = styled.button`
+  height: 20px;
+  display: flex;
+  flex-direction: row;
+  font-size: 10px;
+  background-color: red;
+`
+
 const App = () => {
-  let [r1, setr1] = useState(100)
-  // let r1 = 100
-  let r2 = 100
-  let m1 = 20
-  let m2 = 20
-  let a1 = 3
-  let a2 = 2.5
-  let x0 = 300
-  let y0 = 250
+  const [r1, setr1] = useState(100)
+  const [r2, setr2] = useState(100)
+  const [m1, setm1] = useState(20)
+  const [m2, setm2] = useState(20)
+  const [as1, setas1] = useState(2.5)
+  const [as2, setas2] = useState(-2)
+  const x0 = 300
+  const y0 = 250
+  const fps = 60
+  let a1 = as1
+  let a2 = as2
   let a1_v = 0
   let a2_v = 0
-  let g = 9.81 / 36
-  let num1 = -g * (2 * m1 + m2) * Math.sin(a1)
-  let num2 = -m2 * g * Math.sin(a1 - 2 * a2)
-  let num3 = -2 * Math.sin(a1 - a2) * m2
-  let num4 = a2_v * a2_v * r2 + a1_v * a1_v * r1 * Math.cos(a1 - a2)
-  let den = r1 * (2 * m1 + m2 - m2 * Math.cos(2 * a1 - 2 * a2))
+  let g = 9.81 / fps
+  let num1: number, num2: number, num3: number, num4: number, den: number
   let a1_a = 0
-  let num01 = 2 * Math.sin(a1 - a2)
-  let num02 = a1_v * a1_v * r1 * (m1 + m2)
-  let num03 = g * (m1 + m2) * Math.cos(a1)
-  let num04 = a2_v * a2_v * r2 * m2 * Math.cos(a1 - a2)
-  let den0 = r2 * (2 * m1 + m2 - m2 * Math.cos(2 * a1 - 2 * a2))
+  let num01: number, num02: number, num03: number, num04: number, den0: number
   let a2_a = 0
   let x1 = r1 * Math.sin(a1) + x0
   let y1 = r1 * Math.cos(a1) + y0
@@ -95,8 +111,45 @@ const App = () => {
   return (
     <Wrapper>
       <h1>Double pendulum</h1>
-      <h3 onClick={() => setr1(r1 + 10)}>{r1}</h3>
-      <Pendulum draw={draw} />
+      <RowWrapper>
+        <RowWrapper>
+          <RowWrapper>
+            <ButtonMinus onClick={() => setr1(r1 - 10)}>-10</ButtonMinus>
+            <p>r1: {r1}m</p>
+            <ButtonPlus onClick={() => setr1(r1 + 10)}>+10</ButtonPlus>
+          </RowWrapper>
+          <RowWrapper>
+            <ButtonMinus onClick={() => setr2(r2 - 10)}>-10</ButtonMinus>
+            <p>r2: {r2}m</p>
+            <ButtonPlus onClick={() => setr2(r2 + 10)}>+10</ButtonPlus>
+          </RowWrapper>
+        </RowWrapper>
+        <RowWrapper>
+          <RowWrapper>
+            <ButtonMinus onClick={() => setm1(m1 - 10)}>-10</ButtonMinus>
+            <p>m1: {m1}kg</p>
+            <ButtonPlus onClick={() => setm1(m1 + 10)}>+10</ButtonPlus>
+          </RowWrapper>
+          <RowWrapper>
+            <ButtonMinus onClick={() => setm2(m2 - 10)}>-10</ButtonMinus>
+            <p>m2: {m2}kg</p>
+            <ButtonPlus onClick={() => setm2(m2 + 10)}>+10</ButtonPlus>
+          </RowWrapper>
+          <RowWrapper>
+            <ButtonMinus onClick={() => setas1(as1 - 0.1)}>-0.1</ButtonMinus>
+            <p>as1: {as1.toFixed(1)}rad</p>
+            <ButtonPlus onClick={() => setas1(as1 + 0.1)}>+0.1</ButtonPlus>
+          </RowWrapper>
+          <RowWrapper>
+            <ButtonMinus onClick={() => setas2(as2 - 0.1)}>-0.1</ButtonMinus>
+            <p>as2: {as2.toFixed(1)}rad</p>
+            <ButtonPlus onClick={() => setas2(as2 + 0.1)}>+0.1</ButtonPlus>
+          </RowWrapper>
+        </RowWrapper>
+      </RowWrapper>
+      <div>
+        <Pendulum draw={draw} />
+      </div>
     </Wrapper>
   )
 }
