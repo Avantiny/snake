@@ -18,7 +18,7 @@ const Canvas = styled.canvas`
 `
 
 type CanvasCtx = CanvasRenderingContext2D | null | undefined
-type Props = { draw: (ctx: any, frameCount: number) => void }
+type Props = { draw: (ctx: any) => void }
 
 const Pendulum = (props: Props) => {
   const canvasRef = useRef<HTMLCanvasElement>(null)
@@ -31,7 +31,7 @@ const Pendulum = (props: Props) => {
 
     const render = () => {
       frameCount++
-      props.draw(ctx, frameCount)
+      props.draw(ctx)
       animationFrameId = window.requestAnimationFrame(render)
     }
     render()
@@ -41,21 +41,7 @@ const Pendulum = (props: Props) => {
     }
   }, [props.draw])
 
-  let r1 = 100
-  let r2 = 100
-  let m1 = 10
-  let m2 = 10
-  let a1 = 0
-  let a2 = 0
-  let x1 = r1 * Math.sin(a1)
-  let y1 = r1 * Math.cos(a1)
-
-  return (
-    <Wrapper>
-      <h1>Double pendulum</h1>
-      <Canvas ref={canvasRef} width='600' height='600'></Canvas>
-    </Wrapper>
-  )
+  return <Canvas ref={canvasRef} width='600' height='600' />
 }
 
 export default Pendulum
